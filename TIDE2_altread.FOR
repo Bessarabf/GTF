@@ -1,22 +1,22 @@
-!    TIDE5x5 - для нейтралов на 5х5 сетке 
+!    TIDE5x5 - РґР»СЏ РЅРµР№С‚СЂР°Р»РѕРІ РЅР° 5С…5 СЃРµС‚РєРµ 
 !
-!    pgl(kpars,nt,nh,its,ids) - массив параметров
+!    pgl(kpars,nt,nh,its,ids) - РјР°СЃСЃРёРІ РїР°СЂР°РјРµС‚СЂРѕРІ
 !        
-!    kpars - кол-во параметров, nt - 24 - кол-во моментов времени	
-!    30 - высоты, 37- широты, 72 - долготы
-!    tide24(kpars,2,nh,its,ids) - глобальные массивы амплитуд и фаз приливов параметров
-!                             1- амплитуды    
-!                             2 - фазы ( в местном времени)
+!    kpars - РєРѕР»-РІРѕ РїР°СЂР°РјРµС‚СЂРѕРІ, nt - 24 - РєРѕР»-РІРѕ РјРѕРјРµРЅС‚РѕРІ РІСЂРµРјРµРЅРё	
+!    30 - РІС‹СЃРѕС‚С‹, 37- С€РёСЂРѕС‚С‹, 72 - РґРѕР»РіРѕС‚С‹
+!    tide24(kpars,2,nh,its,ids) - РіР»РѕР±Р°Р»СЊРЅС‹Рµ РјР°СЃСЃРёРІС‹ Р°РјРїР»РёС‚СѓРґ Рё С„Р°Р· РїСЂРёР»РёРІРѕРІ РїР°СЂР°РјРµС‚СЂРѕРІ
+!                             1- Р°РјРїР»РёС‚СѓРґС‹    
+!                             2 - С„Р°Р·С‹ ( РІ РјРµСЃС‚РЅРѕРј РІСЂРµРјРµРЅРё)
 !
-!    sutut(kpars,nh,its,ids),dsutut(kpars,nh,its,ids)	- массивы средних значений параметров
-!                                                   	  и дисперсия - осредненные по времени (UT)
-!    sutlt(kpars,nh,its,nt),dsutlt(kpars,nh,its,nt) - массивы средних значений параметров
-!	                         и дисперсия как функция местного времени - осредненные по долготам  
-!    sutj(kpars,nh,its,nt),dsutj(kpars,nh,its,nt)	- массивы средних значений параметров
-!	                                                и дисперсия - осредненные по долготам
+!    sutut(kpars,nh,its,ids),dsutut(kpars,nh,its,ids)	- РјР°СЃСЃРёРІС‹ СЃСЂРµРґРЅРёС… Р·РЅР°С‡РµРЅРёР№ РїР°СЂР°РјРµС‚СЂРѕРІ
+!                                                   	  Рё РґРёСЃРїРµСЂСЃРёСЏ - РѕСЃСЂРµРґРЅРµРЅРЅС‹Рµ РїРѕ РІСЂРµРјРµРЅРё (UT)
+!    sutlt(kpars,nh,its,nt),dsutlt(kpars,nh,its,nt) - РјР°СЃСЃРёРІС‹ СЃСЂРµРґРЅРёС… Р·РЅР°С‡РµРЅРёР№ РїР°СЂР°РјРµС‚СЂРѕРІ
+!	                         Рё РґРёСЃРїРµСЂСЃРёСЏ РєР°Рє С„СѓРЅРєС†РёСЏ РјРµСЃС‚РЅРѕРіРѕ РІСЂРµРјРµРЅРё - РѕСЃСЂРµРґРЅРµРЅРЅС‹Рµ РїРѕ РґРѕР»РіРѕС‚Р°Рј  
+!    sutj(kpars,nh,its,nt),dsutj(kpars,nh,its,nt)	- РјР°СЃСЃРёРІС‹ СЃСЂРµРґРЅРёС… Р·РЅР°С‡РµРЅРёР№ РїР°СЂР°РјРµС‚СЂРѕРІ
+!	                                                Рё РґРёСЃРїРµСЂСЃРёСЏ - РѕСЃСЂРµРґРЅРµРЅРЅС‹Рµ РїРѕ РґРѕР»РіРѕС‚Р°Рј
 !
       subroutine TIDE_alt(path,nd1,nd2,kpars,nh,ids,its,nt,npril,dtet,
-     *ddolg,nnp)
+     *ddolg)
 !      PARAMETER (kpars=19,nh=30,ids=72,its=37,nt=24,npril=2,
 !     *            dtet=5.,ddolg=5.)
       integer nd1, nd2, npr,kpars,nh,ids,its,nt,npril
@@ -45,8 +45,6 @@
       character pk*140
       character tt*1
 	integer*2 lstat
-      
-      kpall=kpars+2  ! Add 2 parameters
       kpall=3
       kpars=3
       allocate (pgl(kpall,nt,nh,its,ids))
@@ -62,7 +60,9 @@
       
       print*,'TideAnalise'
       print*,kpall,nt,nh,its,ids
-      do jk = nd1,nd2
+
+      do jk = nd1,nd2 ! Р¦РёРєР» РїРѕ РґРЅСЏРј
+
         print*,'current day = ',jk
 	  lstat=-1
         call getarg(1,list,lstat)
@@ -76,8 +76,9 @@
 	    fn=trim(fn2)
         end if
        p0=trim(path) // '\2009\01\' // trim(fn) // '\quiet\'
-       do k=1,24	  ! Цикл по часам  
-     	 write(k1,10) k ! Запись номера часа в форме строковой переменной
+       do nnp=1,3 ! Р¦РёРєР» РїРѕ РЅРѕРјРµСЂСѓ РїР°СЂР°РјРµС‚СЂР°
+       do k=1,24	  ! Р¦РёРєР» РїРѕ С‡Р°СЃР°Рј  
+     	 write(k1,10) k ! Р—Р°РїРёСЃСЊ РЅРѕРјРµСЂР° С‡Р°СЃР° РІ С„РѕСЂРјРµ СЃС‚СЂРѕРєРѕРІРѕР№ РїРµСЂРµРјРµРЅРЅРѕР№
 	 write(k2,11) k
 	 if (k.LE.9) then
 	 k0="0" // trim(k1)
@@ -87,7 +88,7 @@
        
        if(nnp.EQ.1) then
 	 pk=trim(p0)//'surface_file4.'//trim(k0)//'\'  
-     *//'ev,mv#m geo LON_LAT 175 0 0.dat' ! Путь к файлу с данными
+     *//'ev,mv#m geo LON_LAT 175 0 0.dat' ! РџСѓС‚СЊ Рє С„Р°Р№Р»Сѓ СЃ РґР°РЅРЅС‹РјРё
        endif
        
        if(nnp.EQ.2) then
@@ -111,7 +112,8 @@
           enddo
       enddo
       close(55)
-      enddo
+       enddo
+       enddo
       pp=trim(path) // '\2009\01\' // trim(fn) // '\'
       
     	open(90,file=trim(pp) // 'sutut.dat')
@@ -134,12 +136,12 @@
 	  tut(ntt)=dt*(ntt-1)
 	  tl(ntt)=dt*(ntt-1)
       enddo
-c     Формируем массив pgl(nt,kpall,nh,its,ids) 
+c     Р¤РѕСЂРјРёСЂСѓРµРј РјР°СЃСЃРёРІ pgl(nt,kpall,nh,its,ids) 
       
       ins=6
 
-  !    call formPGL_PGI(pgl,rads,kpall,kpars,ins,nt,nh,its,ids,list,pp,
-   !  *             dtet,ddolg)
+ !     call formPGL_PGI(pgl,rads,kpall,kpars,ins,nt,nh,its,ids,list,pp,
+ !    *             dtet,ddolg)
 
 c	print *,pgl(1,1,5,6,7)
    !   open(111,file=trim(pp) // 'sutvar-80.dat')
@@ -166,7 +168,9 @@ c	print *,tide24(7,1,5,6,7)
 !      call bongi(dsutlt,kpall,nh,its,ids)
 !      call bongi(dsutj,kpall,nh,its,ids)
       
-!с  Запись глобальных мсассивов характеристик приливов
+!СЃ  Р—Р°РїРёСЃСЊ РіР»РѕР±Р°Р»СЊРЅС‹С… РјСЃР°СЃСЃРёРІРѕРІ С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРє РїСЂРёР»РёРІРѕРІ
+      rads(1)=0
+!      print*,rads
 	do m = 1,kpall
 	  do k = 1, nh
 	    do i = 1, its
@@ -215,8 +219,9 @@ c	print *,tide24(7,1,5,6,7)
           end do
         end do
 	end do
- 102	format(3f6.1,i4,1x,1p,2e9.2)
+ 102  format(3f6.1,i4,1x,1p,2e9.2)
       end do
+
       close(90)
       close(130)
       close(140)

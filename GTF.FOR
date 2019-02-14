@@ -7,22 +7,22 @@
       dimension pars(8)
 
 	open(100, file='info.txt')
-      read(100,*) kpars,nh,ids,its,nt,npril,dtet,ddolg ! Параметры
-	read(100,*) ps(1), ps(2), ps(3), ps(4), ps(5) ! Признаки запуска
-      read(100,*) path					   ! Путь к папке с данными
-	read(100,*) nd1, nd2				   ! Номера первого и последнего дней
-	read(100,*) npr						   ! Номер параметра
-	read(100,*) nz(1),nz(2),nz(3),nz(4),nz(5),nz(6),nz(7) ! Номера широтных точек
-	read(100,*) h(1), h(2), h(3), h(4)	   ! Номера высотных точек
+      read(100,*) kpars,nh,ids,its,nt,npril,dtet,ddolg ! РџР°СЂР°РјРµС‚СЂС‹
+	read(100,*) ps(1), ps(2), ps(3), ps(4), ps(5) ! РџСЂРёР·РЅР°РєРё Р·Р°РїСѓСЃРєР°
+      read(100,*) path					   ! РџСѓС‚СЊ Рє РїР°РїРєРµ СЃ РґР°РЅРЅС‹РјРё
+	read(100,*) nd1, nd2				   ! РќРѕРјРµСЂР° РїРµСЂРІРѕРіРѕ Рё РїРѕСЃР»РµРґРЅРµРіРѕ РґРЅРµР№
+	read(100,*) npr						   ! РќРѕРјРµСЂ РїР°СЂР°РјРµС‚СЂР°
+	read(100,*) nz(1),nz(2),nz(3),nz(4),nz(5),nz(6),nz(7) ! РќРѕРјРµСЂР° С€РёСЂРѕС‚РЅС‹С… С‚РѕС‡РµРє
+	read(100,*) h(1), h(2), h(3), h(4)	   ! РќРѕРјРµСЂР° РІС‹СЃРѕС‚РЅС‹С… С‚РѕС‡РµРє
 	close(100)
       
       if(npr.EQ.22) then
-          nnp=1 ! Зональное поле
+          nnp=1 ! Р—РѕРЅР°Р»СЊРЅРѕРµ РїРѕР»Рµ
           npr=1
       endif
       
       if(npr.EQ.23) then
-          nnp=2 ! Меридиональное поле
+          nnp=2 ! РњРµСЂРёРґРёРѕРЅР°Р»СЊРЅРѕРµ РїРѕР»Рµ
           npr=2
       endif
       
@@ -39,8 +39,7 @@
       
       if(nnp.EQ.1.OR.nnp.EQ.2.OR.nnp.EQ.3) then
           if(ps(1).EQ.1) then
-		    call TIDE_alt(path,nd1,nd2,kpars,nh,ids,its,nt,npril,dtet,
-     *ddolg,nnp)
+		    call TIDE_alt(path,nd1,nd2,kpars,nh,ids,its,nt,npril,dtet,ddolg)
           endif
       else
       if(ps(1).EQ.1) then
@@ -68,7 +67,7 @@
 10	format(i1)
 11	format(i2)
 
-	write(fn1,10) npr	   ! Определение папки запсии по номеру параметра
+	write(fn1,10) npr	   ! РћРїСЂРµРґРµР»РµРЅРёРµ РїР°РїРєРё Р·Р°РїСЃРёРё РїРѕ РЅРѕРјРµСЂСѓ РїР°СЂР°РјРµС‚СЂР°
 	write(fn2,11) npr
 	if (npr.LE.9) then
 	pn="par0" // trim(fn1)
@@ -78,7 +77,7 @@
 
 	path2=trim(path) // '\' // trim(pn) // '\' 
       if(nnp.EQ.1.OR.nnp.EQ.2.OR.nnp.EQ.3) then
-          path=trim(path) // '\2009\01\' ! Для данных от GSMTIP Viewer
+          path=trim(path) // '\2009\01\' ! Р”Р»СЏ РґР°РЅРЅС‹С… РѕС‚ GSMTIP Viewer
           path2=trim(path) // trim(pn) // '\'
       endif
       

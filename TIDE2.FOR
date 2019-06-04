@@ -1,7 +1,5 @@
 !    TIDE5x5 - дл€ нейтралов на 5х5 сетке 
 !
-!    pgl(kpars,nt,nh,its,ids) - массив параметров
-!        
 !    kpars - кол-во параметров, nt - 24 - кол-во моментов времени	
 !    30 - высоты, 37- широты, 72 - долготы
 !    tide24(kpars,2,nh,its,ids) - глобальные массивы амплитуд и фаз приливов параметров
@@ -15,7 +13,8 @@
 !    sutj(kpars,nh,its,nt),dsutj(kpars,nh,its,nt)	- массивы средних значений параметров
 !	                                                и дисперси€ - осредненные по долготам
 !
-      subroutine TIDE(path,nd1,nd2,kpars,nh,ids,its,nt,npril,dtet,ddolg)
+      subroutine TIDE(path,nd1,nd2,kpars,nh,ids,its,nt,npril,dtet,ddolg,
+     *ssp)
       integer nd1, nd2, npr,kpars,nh,ids,its,nt,npril
       allocatable pgl(:,:,:,:,:)
       allocatable tide24(:,:,:,:,:),tide12(:,:,:,:,:),tide8(:,:,:,:,:)
@@ -73,10 +72,14 @@
 	  else 
 	    nnc=trim(nc2)
         end if
-!     ¬ыбор способа считывани€
-!	write(jk,*) trim(pp) // 'file4.' // nnc ! ѕо дн€м
-      write(jk,*) trim(pp1) // nnc ! ¬ пр€мом пор€дке
-	end do
+        
+      ! ¬ыбор способа считывани€ данных
+          if(ssp.EQ.1) then
+              write(jk,*) trim(pp1) // nnc ! ¬ пр€мом пор€дке
+          else
+              write(jk,*) trim(pp) // 'file4.' // nnc ! ѕо дн€м
+          endif
+         end do
 	close(jk)
         list="TideAnalise\list" // fn // ".txt"
 
